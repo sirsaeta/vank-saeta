@@ -8,10 +8,24 @@ export interface InputCustomer {
 }
 
 export interface ModelCustomer extends InputCustomer {
-    id: number;
+    id: String;
 }
 
 export interface ModelBank {
-    id: number;
+    id: String;
     name: String;
+}
+
+export interface Invoice {
+    id: String;
+    idVendor: String;
+    number: number;
+    date: Date;
+    total: number;
+    paymentTotal: number;
+    creditTotal: number;
+    idBank: String;
+    dueDate: Date;
+    paymentDate: Date;
+    currency: "USD" | "EUR" | "CLP";
 }

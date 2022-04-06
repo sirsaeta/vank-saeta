@@ -1,17 +1,21 @@
 import { Response, Request } from "express";
-import {Cache} from "memory-cache";
 import { validationResult } from 'express-validator';
+import { v4 } from "uuid";
+import { customerCache } from '../memory/index';
 
-const customerCache = new Cache();
-//customerCache.put("customer","[]", 1000)
-
-export const create = (req:Request, res:Response) => {
+export const create = (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
     try {
-        customerCache.put("customers",JSON.stringify(req.body),10000);
+        const getCache = customerCache.get("customers");
+        if (getCache) {
+            const getCustomerCache = JSON.parse(`${getCache}`);
+            customerCache.put("customers", JSON.stringify([...getCustomerCache, { id: v4(), ...req.body }]), 10000);
+        } else {
+            customerCache.put("customers", JSON.stringify([{ id: v4(), ...req.body }]), 10000);
+        }
         res.json({
             message: "OK"
         });
@@ -22,7 +26,7 @@ export const create = (req:Request, res:Response) => {
     }
 }
 
-export const get = (req:Request, res:Response) => {
+export const get = (req: Request, res: Response) => {
     try {
         const getCache = customerCache.get("customers");
         if (getCache) {
@@ -37,5 +41,3 @@ export const get = (req:Request, res:Response) => {
         });
     }
 }
-
-export { customerCache };

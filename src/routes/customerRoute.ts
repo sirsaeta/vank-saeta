@@ -6,7 +6,7 @@ const customerPrivateRoute = Router();
 const customerPublicRoute = Router();
 
 customerPrivateRoute.post(
-    '/', 
+    '/customer', 
     body("name").notEmpty(), 
     body("code").notEmpty(), 
     body("idTax").isNumeric(), 
@@ -16,10 +16,8 @@ customerPrivateRoute.post(
     create
 );
 
-customerPublicRoute.get('/', get);
+customerPublicRoute.get('/customer', get);
 
-customerPublicRoute.get('/a', (req, res) => {
-    res.send('Express + TypeScript Server aa');
-});
+customerPublicRoute.put('/customer', get);
 
 export { customerPrivateRoute, customerPublicRoute };

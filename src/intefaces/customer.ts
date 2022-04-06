@@ -2,7 +2,7 @@ export interface InputCustomer {
     name: String;
     code: String;
     idTax: number;
-    idCurrency: number;
+    currency: "USD" | "EUR" | "CLP";
     quotaMonthly: number;
     listBanks: number[];
 }

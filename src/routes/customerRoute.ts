@@ -10,7 +10,7 @@ customerPrivateRoute.post(
     body("name").notEmpty(), 
     body("code").notEmpty(), 
     body("idTax").isNumeric(), 
-    body("idCurrency").isNumeric(), 
+    body("currency").isIn(["USD","EUR","CLP"]), 
     body("quotaMonthly").isNumeric(), 
     body("listBanks").isArray(), 
     create
